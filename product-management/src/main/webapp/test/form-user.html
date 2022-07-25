@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Form Validation | Zircos - Responsive Bootstrap 4 Admin Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="Responsive bootstrap 4 admin template" name="description">
+        <meta content="Coderthemes" name="author">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="/assets\images\favicon.ico">
+
+        <!-- App css -->
+        <link href="/assets\css\bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap-stylesheet">
+        <link href="/assets\css\icons.min.css" rel="stylesheet" type="text/css">
+        <link href="/assets\css\app.min.css" rel="stylesheet" type="text/css" id="app-stylesheet">
+
+    </head>
+
+    <body data-layout="horizontal">
+
+        <div class="col-lg-6">
+
+            <h1 class="header-title">User Form</h1>
+
+            <div class="p-4">
+                <form action="#" data-parsley-validate="" novalidate="">
+                    <div class="form-group">
+                        <label for="userName">User Name<span class="text-danger">*</span></label>
+                        <input type="text" name="nick" parsley-trigger="change" required="" placeholder="Enter user name" class="form-control" id="userName">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pass1">Password<span class="text-danger">*</span></label>
+                        <input id="pass1" type="password" placeholder="Password" required="" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fullName">Full Name<span class="text-danger">*</span></label>
+                        <input type="text" name="nick" parsley-trigger="change" required="" placeholder="Enter Fullname" class="form-control" id="fullName">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone<span class="text-danger">*</span></label>
+                        <input type="text" name="nick" parsley-trigger="change" required="" placeholder="Enter Phone" class="form-control" id="phone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email<span class="text-danger">*</span></label>
+                        <input type="email" name="email" parsley-trigger="change" required="" placeholder="Enter email" class="form-control" id="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address<span class="text-danger">*</span></label>
+                        <input type="address" name="email" parsley-trigger="change" required="" placeholder="Enter address" class="form-control" id="address">
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox checkbox-purple">
+                            <input id="remember-1" type="checkbox">
+                            <label for="remember-1"> Remember me </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group text-right mb-0">
+                        <button class="btn btn-primary waves-effect waves-light" type="submit">
+                            Submit
+                        </button>
+                        <button type="reset" class="btn btn-secondary waves-effect ml-1">
+                            Cancel
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </body>
+
+</html>
