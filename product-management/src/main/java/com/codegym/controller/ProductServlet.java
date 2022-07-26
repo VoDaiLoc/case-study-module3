@@ -120,7 +120,7 @@ public class ProductServlet extends HttpServlet {
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        String id = request.getParameter("id");
         Product existingProduct = productDAO.selectProduct(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/product/edit.jsp");
         request.setAttribute("product", existingProduct);
@@ -140,16 +140,6 @@ public class ProductServlet extends HttpServlet {
 
     private void insertProduct(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
-//        String name = request.getParameter("name");
-//        double price = Double.parseDouble(request.getParameter("price"));
-//        double quantity = Double.parseDouble(request.getParameter("quantity"));
-//        String image = request.getParameter("image");
-//        Product newProduct = new Product(name, price, quantity,image);
-//        System.out.println(newProduct);
-//        productDAO.insertProduct(newProduct);
-//
-//        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/product/add.jsp");
-//        dispatcher.forward(request, response);
         Product product;
         String name = request.getParameter("name").trim();
         String price = request.getParameter("price").trim();
@@ -185,17 +175,22 @@ public class ProductServlet extends HttpServlet {
             errors.add("Quantity phải là một số và là số >=0");
         }
         if (!isPrice) {
-            errors.add("Price phải là một số và là số dương");
+            errors.add("Price phải là một số thực");
         }
-        double checkPrice = Double.parseDouble(price);
-
+        double checkPrice=1.0;
+        try {
+            if (isPrice)
+                checkPrice = Double.parseDouble(price);
+        } catch (Exception e) {
+            errors.add("Price là một số thực và > 0");
+        }
         if (!isPrice || checkPrice==0) {
-            errors.add("Price phải là một số và là số dương");
+            errors.add("Price phải là một số và là một số dương");
         }
         try{
 
             if (checkPrice >  500000){
-                errors.add("Price phải <= 500000 đồng");
+                errors.add("Price phải <= 500000 đồng!");
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -227,22 +222,22 @@ public class ProductServlet extends HttpServlet {
 
     private void updateProduct(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, IOException, ServletException {
-//        int id = Integer.parseInt(request.getParameter("id"));
-//        String name = request.getParameter("name");
-//        String price = request.getParameter("price");
-//        String quantity = request.getParameter("quantity");
-//        String image = request.getParameter("image");
-//        Product newProduct = new Product(id, name, price,quantity,image);
-//        System.out.println(newProduct);
-//        productDAO.updateProduct(newProduct);
-////        RequestDispatcher dispatcher = request.getRequestDispatcher("/product");
-////        dispatcher.forward(request, response);
-//        response.sendRedirect("/product");
-
         List<String> errors = new ArrayList<>();
         Product product;
-        String para = request.getParameter("id").trim();
-        int id = ValidateUtils.isIntValid(para) ? Integer.parseInt(para): 11;
+        String id= request.getParameter("id").trim();
+        boolean isId = ValidateUtils.isIntValid(id);
+        int checkId=0;
+        if (isId) {
+            checkId=Integer.parseInt(id);
+        }
+        if (!productDAO.existByProductId(checkId)) {
+            errors.add("ID phải có thật!");
+        }
+
+        if (!isId) {
+            errors.add("ID là số nguyên dương !");
+        }
+
         String name = request.getParameter("name").trim();
         String price = request.getParameter("price").trim();
         String quantity = request.getParameter("quantity").trim();
@@ -267,7 +262,13 @@ public class ProductServlet extends HttpServlet {
         if (quantity.isEmpty()) {
             errors.add("Quantity không được để trống");
         }
-        double checkPrice = Double.parseDouble(price);
+        double checkPrice=1.0;
+        try {
+            if (isPrice)
+                checkPrice = Double.parseDouble(price);
+        } catch (Exception e) {
+            errors.add("Price phải là một số và là một số dương");
+        }
         if (!isPrice || checkPrice==0) {
             errors.add("Price phải là một số và là một số dương");
         }

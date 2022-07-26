@@ -26,8 +26,8 @@ public class ProductDAO implements IProductDAO {
 
     private static String PRODUCT_EXIST_BY_ID = "" +
             "SELECT COUNT(*) AS COUNT " +
-            "FROM `products` AS p " +
-            "WHERE p.productId = ?;";
+            "FROM `product` AS p " +
+            "WHERE p.id = ?;";
     private int noOfRecords;
 
     public int getNoOfRecords(){
@@ -64,7 +64,7 @@ public class ProductDAO implements IProductDAO {
         ResultSet rs = ps.executeQuery();
         while (rs.next()){
             Product product = new Product();
-            product.setId(rs.getInt("id"));
+            product.setId(rs.getString("id"));
             product.setName(rs.getString("name"));
             product.setPrice(rs.getString("price"));
             product.setQuantity(rs.getString("quantity"));
@@ -85,7 +85,7 @@ public class ProductDAO implements IProductDAO {
         try {
             Connection connection = connectionMySQL.getConnection();
             PreparedStatement statement = connection.prepareCall(PRODUCT_EXIST_BY_ID);
-            statement.setLong(1, id);
+            statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 int count = rs.getInt("count");
@@ -100,12 +100,12 @@ public class ProductDAO implements IProductDAO {
     }
 
     @Override
-    public Product selectProduct(int id) {
+    public Product selectProduct(String id) {
         Product product = null;
         try {
             Connection connection = connectionMySQL.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PRODUCT_BY_ID);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, id);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
@@ -134,7 +134,7 @@ public class ProductDAO implements IProductDAO {
             ResultSet rs = preparedStatement.executeQuery();
             // Step 4: Process the ResultSet object.
             while (rs.next()) {
-                int id = rs.getInt("id");
+                String id = rs.getString("id");
                 String name = rs.getString("name");
                 String price = rs.getString("price");
                 String quantity = rs.getString("quantity");
@@ -166,7 +166,7 @@ public class ProductDAO implements IProductDAO {
             statement.setString(2, product.getPrice());
             statement.setString(3, product.getQuantity());
             statement.setString(4, product.getImage());
-            statement.setInt(5, product.getId());
+            statement.setString(5, product.getId());
             rowUpdated = statement.executeUpdate() > 0;
         }
         return rowUpdated;
@@ -182,7 +182,7 @@ public class ProductDAO implements IProductDAO {
             preparedStatement.setString(3, '%' + query + '%');
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                int id = Integer.parseInt(rs.getString("id"));
+                String id = rs.getString("id");
                 String name = rs.getString("name");
                 String price = rs.getString("price");
                 String quantity = rs.getString("quantity");

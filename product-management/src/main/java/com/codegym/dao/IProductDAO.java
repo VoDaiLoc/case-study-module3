@@ -8,7 +8,7 @@ import java.util.List;
 public interface IProductDAO {
     Boolean insertProduct(Product product) throws SQLException;
 
-    Product selectProduct(int id);
+    Product selectProduct(String id);
 
     List<Product> selectAllProduct();
 

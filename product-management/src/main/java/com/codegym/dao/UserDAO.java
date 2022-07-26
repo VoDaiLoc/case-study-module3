@@ -309,12 +309,6 @@ public class UserDAO implements IUserDAO{
             if (user.getUsername().equals(username)&&user.getPassword().equals(password))
                 return true;
         }
-//        if(username.equals("tien")&&password.equals("123123")){
-//            return true;
-//        }
-//        if(username.equals("thien")&&password.equals("123123")){
-//            return true;
-//        }
         return false;
     }
 }
