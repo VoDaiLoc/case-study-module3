@@ -3,9 +3,10 @@ package com.codegym.utils;
 import java.util.regex.Pattern;
 
 public class ValidateUtils {
-    public static final String NUMBER_PHONE_REGEX = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
-            + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
-            + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$";
+//    public static final String NUMBER_PHONE_REGEX = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
+//            + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
+//            + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$";
+    public static final String NUMBER_PHONE_REGEX = "^[0][1-9][0-9]{8}$";
     public static final String NUMBER_REGEX = "^\\d*\\.?\\d*$";
 
     public static final String INT_REGEX = "^\\d+$";

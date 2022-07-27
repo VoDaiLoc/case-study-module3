@@ -171,31 +171,42 @@ public class ProductServlet extends HttpServlet {
             errors.add("Quantity Product không được để trống");
         }
 
-        if (!isQuantity) {
-            errors.add("Quantity phải là một số và là số >=0");
-        }
-        if (!isPrice) {
-            errors.add("Price phải là một số thực");
-        }
+//        if (!isQuantity) {
+//            errors.add("Quantity phải là một số thực >= 0");
+//        }
+//        if (!isPrice) {
+//            errors.add("Price phải là một số thực");
+//        }
         double checkPrice=1.0;
         try {
             if (isPrice)
                 checkPrice = Double.parseDouble(price);
         } catch (Exception e) {
-            errors.add("Price là một số thực và > 0");
-        }
-        if (!isPrice || checkPrice==0) {
-            errors.add("Price phải là một số và là một số dương");
-        }
-        try{
-
-            if (checkPrice >  500000){
-                errors.add("Price phải <= 500000 đồng!");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
             errors.add("Định dạng giá không hợp lệ");
         }
+        if (!isPrice || checkPrice<=0 || checkPrice>500000) {
+            errors.add("Price phải là số thực lớn hơn 0 và nhỏ hơn 500000");
+        }
+
+        double checkQuantity=1.0;
+        try {
+            if (isQuantity)
+                checkQuantity = Double.parseDouble(quantity);
+        } catch (Exception e) {
+            errors.add("Định dạng số lượng không hợp lệ");
+        }
+        if (!isQuantity || checkQuantity < 0 || checkQuantity>1000) {
+            errors.add("Quantity phải là số thực >= 0 và <1000");
+        }
+//        try{
+//
+//            if (checkPrice >  500000){
+//                errors.add("Price phải <= 500000 đồng!");
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            errors.add("Định dạng giá không hợp lệ");
+//        }
 
 
         if (errors.size() == 0) {
@@ -235,7 +246,7 @@ public class ProductServlet extends HttpServlet {
         }
 
         if (!isId) {
-            errors.add("ID là số nguyên dương !");
+            errors.add("ID phải là số nguyên dương !");
         }
 
         String name = request.getParameter("name").trim();
@@ -262,28 +273,50 @@ public class ProductServlet extends HttpServlet {
         if (quantity.isEmpty()) {
             errors.add("Quantity không được để trống");
         }
+
         double checkPrice=1.0;
         try {
             if (isPrice)
                 checkPrice = Double.parseDouble(price);
         } catch (Exception e) {
-            errors.add("Price phải là một số và là một số dương");
-        }
-        if (!isPrice || checkPrice==0) {
-            errors.add("Price phải là một số và là một số dương");
-        }
-        try{
-
-            if (checkPrice >  500000){
-                errors.add("Price phải <= 500000 đồng!");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
             errors.add("Định dạng giá không hợp lệ");
         }
-        if (!isQuantity) {
-            errors.add("Quantity phải là một số và là một số dương");
+        if (!isPrice || checkPrice<=0 || checkPrice>500000) {
+            errors.add("Price phải là số thực lớn hơn 0 và nhỏ hơn 500000");
         }
+
+        double checkQuantity=1.0;
+        try {
+            if (isQuantity)
+                checkQuantity = Double.parseDouble(quantity);
+        } catch (Exception e) {
+            errors.add("Định dạng số lượng không hợp lệ");
+        }
+        if (!isQuantity || checkQuantity < 0 || checkQuantity>1000) {
+            errors.add("Quantity phải là số thực >= 0 và <1000");
+        }
+//        double checkPrice=1.0;
+//        try {
+//            if (isPrice)
+//                checkPrice = Double.parseDouble(price);
+//        } catch (Exception e) {
+//            errors.add("Price phải là một số và là một số dương");
+//        }
+//        if (!isPrice || checkPrice==0) {
+//            errors.add("Price phải là một số và là một số dương");
+//        }
+//        try{
+//
+//            if (checkPrice >  500000){
+//                errors.add("Price phải <= 500000 đồng!");
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            errors.add("Định dạng giá không hợp lệ");
+//        }
+//        if (!isQuantity) {
+//            errors.add("Quantity phải là một số thực >= 0");
+//        }
         if (errors.size() == 0) {
             product = new Product(id, name, price, quantity, image);
             boolean success = false;

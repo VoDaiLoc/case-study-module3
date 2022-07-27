@@ -19,7 +19,7 @@ public class UserDAO implements IUserDAO{
     private static final String SELECT_USER_BY_ID = "select id,username,password,fullName,phone,email,address from user where id =?";
     private static final String SELECT_ALL_USERS = "select * from user";
     private static final String DELETE_USERS_SQL = "delete from user where id = ?;";
-    private static final String UPDATE_USERS_SQL = "update user set username = ?, password= ?, fullName= ?, phone= ?, email= ?, address= ? where id = ?;";
+    private static final String UPDATE_USERS_SQL = "update user set fullName= ?, phone= ?, email= ?, address= ? where id = ?;";
     private static final String SEARCH_BY_NAME_TYPE = "SELECT * FROM user  WHERE  fullName LIKE ? OR phone LIKE ? OR email LIKE ? ; ";
     private static final String USER_EXIST_BY_PHONE = "" +
             "SELECT COUNT(*) AS COUNT " +
@@ -39,7 +39,7 @@ public class UserDAO implements IUserDAO{
     private static String USER_EXIST_BY_ID = "" +
             "SELECT COUNT(*) AS COUNT " +
             "FROM user AS u " +
-            "WHERE u.userId = ?;";
+            "WHERE u.id = ?;";
     private int noOfRecords;
 
 
@@ -80,7 +80,7 @@ public class UserDAO implements IUserDAO{
         ResultSet rs = ps.executeQuery();
         while (rs.next()){
             User user = new User();
-            user.setId(rs.getInt("id"));
+            user.setId(rs.getString("id"));
             user.setUsername(rs.getString("username"));
             user.setFullName(rs.getString("fullname"));
             user.setPassword(rs.getString("password"));
@@ -180,12 +180,12 @@ public class UserDAO implements IUserDAO{
     }
 
     @Override
-    public User selectUser(int id) {
+    public User selectUser(String id) {
         User user = null;
         try {
             Connection connection = connectionMySQL.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, id);
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
@@ -217,7 +217,7 @@ public class UserDAO implements IUserDAO{
             ResultSet rs = preparedStatement.executeQuery();
             // Step 4: Process the ResultSet object.
             while (rs.next()) {
-                int id = rs.getInt("id");
+                String id = rs.getString("id");
                 String username = rs.getString("username");
                 String password = rs.getString("password");
                 String name = rs.getString("fullname");
@@ -247,13 +247,13 @@ public class UserDAO implements IUserDAO{
     public boolean updateUser(User user) throws SQLException {
         boolean rowUpdated;
         try (Connection connection = connectionMySQL.getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_USERS_SQL);) {
-            statement.setString(1, user.getUsername());
-            statement.setString(2, user.getPassword());
-            statement.setString(3, user.getFullName());
-            statement.setString(4, user.getPhone());
-            statement.setString(5, user.getEmail());
-            statement.setString(6, user.getAddress());
-            statement.setInt(7,user.getId());
+//            statement.setString(1, user.getUsername());
+//            statement.setString(2, user.getPassword());
+            statement.setString(1, user.getFullName());
+            statement.setString(2, user.getPhone());
+            statement.setString(3, user.getEmail());
+            statement.setString(4, user.getAddress());
+            statement.setString(5,user.getId());
 
             rowUpdated = statement.executeUpdate() > 0;
         }
@@ -271,7 +271,7 @@ public class UserDAO implements IUserDAO{
             preparedStatement.setString(3, '%' + name + '%');
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
+                String id = rs.getString("id");
                 String fullName = rs.getString("fullName");
                 String phone = rs.getString("phone");
                 String email = rs.getString("email");

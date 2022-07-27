@@ -57,8 +57,8 @@
                             <form  method="post" data-parsley-validate="" novalidate="">
                                 <c:if test="${user != null}">
                                     <input type="hidden" name="id" value="${user.getId()}"/>
-                                    <input type="hidden" name="username" value="${user.getUsername()}"/>
-                                    <input type="hidden" name="password" value="${user.getPassword()}"/>
+<%--                                    <input type="hidden" name="username" value="${user.getUsername()}"/>--%>
+<%--                                    <input type="hidden" name="password" value="${user.getPassword()}"/>--%>
                                 </c:if>
                                 <div class="form-group">
                                     <label for="fullname">Full Name<span class="text-danger">*</span></label>

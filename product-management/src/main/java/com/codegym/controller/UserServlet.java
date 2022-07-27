@@ -1,6 +1,7 @@
 package com.codegym.controller;
 
 import com.codegym.dao.UserDAO;
+import com.codegym.model.Product;
 import com.codegym.model.User;
 import com.codegym.utils.ValidateUtils;
 
@@ -118,7 +119,7 @@ public class UserServlet extends HttpServlet {
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        String id = request.getParameter("id");
         User existingUser = userDAO.selectUser(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/user/edit.jsp");
         request.setAttribute("user", existingUser);
@@ -252,17 +253,34 @@ public class UserServlet extends HttpServlet {
 ////        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/user/list.jsp");
 ////        dispatcher.forward(request, response);
 //        response.sendRedirect("/users");
-        User user = null;
         List<String> errors = new ArrayList<>();
-        int id = Integer.parseInt(request.getParameter("id").trim());
-        String userName = request.getParameter("username").replaceAll(" ", "").toLowerCase();
-        String password = request.getParameter("password").trim();
-        String fullName = request.getParameter("fullname").trim();
-        String phone = request.getParameter("phone").trim();
+        User user = null;
+        String id= request.getParameter("id");
+        boolean isId = ValidateUtils.isIntValid(id);
+        int checkId=0;
+        if (isId) {
+            checkId=Integer.parseInt(id);
+        }else {
+            errors.add("ID phải là số nguyên dương !");
+        }
+        if (!userDAO.existByUserId(checkId)) {
+            errors.add("ID phải có thật!");
+        }
+
+//        if (!isId) {
+//            errors.add("ID phải là số nguyên dương !");
+//        }
+//        String userName = request.getParameter("username");
+////                replaceAll(" ", "").toLowerCase();
+//        System.out.println("usernam"+userName);
+//        String password = request.getParameter("password");
+        String fullName = request.getParameter("fullname");
+        String phone = request.getParameter("phone");
         String email = request.getParameter("email");
-        String address = request.getParameter("address").trim();
+        String address = request.getParameter("address");
         boolean isPhone = ValidateUtils.isNumberPhoneVailid(phone);
         boolean isEmail = ValidateUtils.isEmailValid(email);
+        user = new User(id, fullName, phone,email, address);
         User userEmail = userDAO.selectUser(id);
         String checkEmail = userEmail.getEmail();
         User userPhone = userDAO.selectUser(id);
@@ -278,6 +296,9 @@ public class UserServlet extends HttpServlet {
 //        user = new User(id, fullName, phone, address);
 //        }catch (NumberFormatException e){
 //            errors.add("ID không tồn tại");
+//        }
+//        if (userName==null || password == null) {
+//            errors.add("username và password không được null!");
 //        }
         if (fullName.isEmpty()) {
             errors.add("Full name không được để trống");
@@ -307,7 +328,7 @@ public class UserServlet extends HttpServlet {
 
 
         if (errors.size() == 0) {
-            user = new User(id, userName,password, fullName, phone,email, address);
+            user = new User(id, fullName, phone,email, address);
             boolean success = false;
             success = userDAO.updateUser(user);
             if (success) {

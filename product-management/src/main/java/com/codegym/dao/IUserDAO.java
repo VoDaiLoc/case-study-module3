@@ -8,7 +8,7 @@ import java.util.List;
 public interface IUserDAO {
     public boolean insertUser(User user) throws SQLException;
 
-    public User selectUser(int id);
+    public User selectUser(String id);
 
     public List<User> selectAllUsers();
 
@@ -27,4 +27,5 @@ public interface IUserDAO {
     boolean existByUserId(int userId);
 
     boolean existByPhone(String phone);
+
 }
